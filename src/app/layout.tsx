@@ -14,10 +14,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const isAdmin = pathname.startsWith('/admin');
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  // Admin routes have their own layout — render children only
+  if (isAdmin) {
+    return (
+      <html lang="en">
+        <body className="min-h-screen bg-neutral-50 font-sans text-neutral-900">
+          {children}
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html lang="en">
@@ -25,12 +37,12 @@ export default function RootLayout({
         <div className="min-h-screen bg-neutral-50 font-sans text-neutral-900 selection:bg-neutral-900 selection:text-white flex flex-col">
           <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-100">
             {/* Logo Section */}
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center py-2">
               <Link href="/" className="hover:opacity-70 transition-opacity">
                 <img
-                  src="/logo.svg"
+                  src="/logo.png"
                   alt="The Blender Logo"
-                  className="h-20 md:h-28 w-auto object-contain"
+                  className="h-[52px] md:h-[72px] w-auto object-contain"
                 />
               </Link>
             </div>
@@ -53,19 +65,11 @@ export default function RootLayout({
                   </span>
                 </span>
 
-                {/* Orchard — disabled */}
-                <span className="relative group cursor-not-allowed">
-                  <span className="flex items-center gap-3 text-neutral-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] opacity-40"></span>
-                    <span className="uppercase tracking-widest font-oswald flex items-center gap-1.5">
-                      Orchard
-                      <Construction className="w-3.5 h-3.5" />
-                    </span>
-                  </span>
-                  <span className="absolute top-full left-0 mt-2 px-3 py-1.5 bg-neutral-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-                    under construction
-                  </span>
-                </span>
+                {/* Orchard — active */}
+                <Link href="/orchard" className="group flex items-center gap-3 hover:opacity-70 transition-opacity">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+                  <span className="uppercase tracking-widest font-oswald">Orchard</span>
+                </Link>
 
                 {/* Basket — active */}
                 <Link href="/basket" className="group flex items-center gap-3 hover:opacity-70 transition-opacity">
@@ -159,7 +163,7 @@ export default function RootLayout({
                   <p>Athens 104 37, Greece</p>
                 </div>
                 <div className="text-sm">
-                  <a href="mailto:blender@entertheblender.gr" className="hover:text-white transition-colors">blender@entertheblender.gr</a>
+                  <a href="mailto:info@entertheblender.gr" className="hover:text-white transition-colors">info@entertheblender.gr</a>
                   <p>+30 210 522 3954</p>
                 </div>
                 <div className="flex gap-3 mt-2">
@@ -169,7 +173,7 @@ export default function RootLayout({
                   <a href="https://www.instagram.com/entertheblender" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-70 transition-opacity" aria-label="Instagram">
                     <Instagram size={18} />
                   </a>
-                  <a href="mailto:blender@entertheblender.gr" className="text-white hover:opacity-70 transition-opacity" aria-label="Email">
+                  <a href="mailto:info@entertheblender.gr" className="text-white hover:opacity-70 transition-opacity" aria-label="Email">
                     <Mail size={18} />
                   </a>
                   <a href="viber://chat?number=%2B302105223954" className="text-purple-500 hover:opacity-70 transition-opacity" aria-label="Viber">

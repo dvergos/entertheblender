@@ -11,7 +11,7 @@ export function FloatingContactButton() {
     {
       icon: Mail,
       label: "Email Us",
-      href: "mailto:blender@entertheblender.gr",
+      href: "mailto:info@entertheblender.gr",
       color: "#D4B5E8",
       delay: 0.1,
     },

@@ -1,143 +1,152 @@
-'use client';
+import { createClient } from '@/lib/supabase/server';
+import type { Room } from '@/lib/rooms';
+import Link from 'next/link';
 
-import { motion } from "motion/react";
-import Link from "next/link";
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+export default async function OrchardPage() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('rooms')
+    .select(
+      'id, name, tagline, mood, description, images, price_weekday, size, capacity_adults, is_available, sort_order'
+    )
+    .eq('is_available', true)
+    .order('sort_order');
 
-const ROOMS = [
-  {
-    id: "blackcurrant",
-    name: "Blackcurrant",
-    mood: "Deep. Intimate. Grounded.",
-    description: "Blackcurrant feels like evening light in wood. Dense pencil texture. Clusters. Shadow play.",
-    image: "https://images.unsplash.com/photo-1743867840110-ee532b7c6fb9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwcHVycGxlJTIwYmVkcm9vbSUyMGludGVyaW9yJTIwbW9vZHl8ZW58MXx8fHwxNzcxNzU2MTk5fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    palette: "Dark purples / charcoal accents"
-  },
-  {
-    id: "banana",
-    name: "Banana",
-    mood: "Playful. Soft. Warm.",
-    description: "Banana is the most relaxed room. Elongated shapes. Vertical motion.",
-    image: "https://images.unsplash.com/photo-1699558983214-521c242961b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YXJtJTIwd29vZCUyMHllbGxvdyUyMGFjY2VudCUyMGJlZHJvb20lMjBpbnRlcmlvcnxlbnwxfHx8fDE3NzE3NTYxOTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    palette: "Warm wood + muted yellow accents"
-  },
-  {
-    id: "blood-orange",
-    name: "Blood Orange",
-    mood: "Bold. Sensory. Vibrant.",
-    description: "This room feels energetic. Circular slices. Sharp contrast pencil strokes.",
-    image: "https://images.unsplash.com/photo-1593030019566-d681b01e877f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxydXN0JTIwb3JhbmdlJTIwYmVkcm9vbSUyMGludGVyaW9yJTIwdmlicmFudHxlbnwxfHx8fDE3NzE3NTYxOTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    palette: "Warm tones / rust accents"
-  },
-  {
-    id: "breadfruit",
-    name: "Breadfruit",
-    mood: "Textured. Earthy. Architectural.",
-    description: "Breadfruit becomes the most structural room. Patterned skin. Geometric repetition.",
-    image: "https://images.unsplash.com/photo-1705372334341-3780ebb7c97b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyYXclMjB3b29kJTIwdGV4dHVyZWQlMjBiZWRyb29tJTIwaW50ZXJpb3J8ZW58MXx8fHwxNzcxNzU2MTk5fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    palette: "Raw materials / natural wood"
-  },
-  {
-    id: "bergamot",
-    name: "Bergamot",
-    mood: "Refined. Fragrant. Balanced.",
-    description: "The most elegant room. Minimal line drawing. Citrus cross-sections.",
-    image: "https://images.unsplash.com/photo-1615800001718-73ba40557cb3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2Z0JTIwZ3JlZW4lMjBtaW5pbWFsJTIwYmVkcm9vbSUyMGludGVyaW9yfGVufDF8fHx8MTc3MTc1NjE5OXww&ixlib=rb-4.1.0&q=80&w=1080",
-    palette: "Soft green undertones"
-  },
-  {
-    id: "blueberry",
-    name: "Blueberry",
-    mood: "Calm. Compact. Introspective.",
-    description: "Quiet and minimal. Small repetitive dot textures.",
-    image: "https://images.unsplash.com/photo-1767050371633-675072d4bed7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZWVwJTIwYmx1ZSUyMGJlZHJvb20lMjBpbnRlcmlvciUyMG1pbmltYWx8ZW58MXx8fHwxNzcxNzU2MTk5fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    palette: "Deep blue undertones"
-  }
-];
+  const rooms = (data ?? []) as Partial<Room>[];
+  const heroImage = rooms[0]?.images?.[0] ?? null;
 
-export default function Orchard() {
   return (
     <div className="bg-neutral-50 text-neutral-900 pb-24">
-      {/* HERO */}
-      <section className="relative h-[80vh] w-full flex items-center justify-center bg-neutral-900 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-60">
-          <ImageWithFallback src={ROOMS[3].image} className="w-full h-full object-cover" alt="Orchard Hero" />
-        </div>
-        <div className="relative z-10 text-center px-4">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="font-oswald text-6xl md:text-8xl uppercase mb-4"
-          >
-            Orchard
-          </motion.h1>
-          <p className="font-oswald text-xl tracking-widest uppercase opacity-80 mb-8">Fruit Rooms</p>
-          <p className="font-inter max-w-md mx-auto font-light">
-            Sleep among trees. Each room named after a fruit. Built with reclaimed materials. Designed to slow you down.
+      {/* Hero */}
+      <section className="relative h-[75vh] w-full flex items-center justify-center bg-neutral-900 text-white overflow-hidden">
+        {heroImage && (
+          <div className="absolute inset-0 opacity-50">
+            <img src={heroImage} alt="Orchard" className="w-full h-full object-cover" />
+          </div>
+        )}
+        <div className="relative z-10 text-center px-6">
+          <p className="font-oswald text-xs uppercase tracking-[0.4em] mb-6 opacity-60">
+            The Blender — Orchard
+          </p>
+          <h1 className="font-oswald text-7xl md:text-9xl uppercase mb-4">Orchard</h1>
+          <p className="font-oswald text-lg tracking-widest uppercase opacity-60 mb-8">
+            Fruit Rooms
+          </p>
+          <p className="font-inter max-w-sm mx-auto font-light text-white/70 leading-relaxed text-sm">
+            Sleep among trees. Six rooms, each named after a fruit.
+            Built with reclaimed materials. Designed to slow you down.
           </p>
         </div>
       </section>
 
-      {/* PHILOSOPHY */}
-      <section className="py-24 px-6 md:px-12 max-w-5xl mx-auto text-center">
+      {/* Philosophy strip */}
+      <section className="py-20 px-6 md:px-12 max-w-4xl mx-auto text-center border-b border-neutral-200">
         <h2 className="font-oswald text-4xl uppercase mb-8">The B Collection</h2>
-        <div className="font-inter font-light text-lg space-y-2 mb-12">
+        <div className="font-inter font-light text-neutral-600 text-lg space-y-1.5">
           <p>Six fruits. Six moods. One letter.</p>
           <p>Each Orchard room begins with B.</p>
           <p>A quiet connection to The Blender.</p>
         </div>
-        <Link href="/book" className="inline-block border-b border-neutral-900 pb-1 uppercase font-oswald tracking-widest hover:text-neutral-500 transition-colors">
-          Check Availability
-        </Link>
       </section>
 
-      {/* ROOM LIST */}
-      <section className="px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
-          {ROOMS.map((room, index) => (
-            <motion.div
-              key={room.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: index % 2 * 0.2 }}
-              className="group"
-            >
-              <div className="aspect-[4/3] bg-neutral-200 mb-6 overflow-hidden relative">
-                <ImageWithFallback
-                  src={room.image}
-                  alt={room.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500"></div>
-              </div>
+      {/* Room grid */}
+      <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        {rooms.length === 0 ? (
+          <div className="text-center py-24">
+            <p className="font-oswald text-3xl uppercase text-neutral-300 mb-4">
+              Rooms Coming Soon
+            </p>
+            <p className="font-inter text-neutral-400 font-light">
+              We&apos;re preparing something beautiful.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-24">
+            {rooms.map((room, idx) => (
+              <Link key={room.id} href={`/orchard/${room.id}`} className="group block">
+                {/* Image */}
+                <div className="aspect-[4/3] bg-neutral-200 mb-6 overflow-hidden relative">
+                  {room.images?.[0] ? (
+                    <img
+                      src={room.images[0]}
+                      alt={room.name ?? ''}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="font-oswald text-5xl text-neutral-300 uppercase">
+                        {room.name?.[0]}
+                      </span>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+                </div>
 
-              <div className="flex flex-col items-start">
-                <span className="font-oswald text-sm text-neutral-400 mb-2">0{index + 1}</span>
-                <h3 className="font-oswald text-3xl uppercase mb-2 group-hover:text-neutral-600 transition-colors">{room.name}</h3>
-                <p className="font-inter text-sm font-medium uppercase tracking-wide mb-4 text-neutral-500">{room.mood}</p>
-                <p className="font-inter font-light text-neutral-600 mb-6 leading-relaxed max-w-md">
-                  {room.description}
-                </p>
-                <Link
-                  href={`/book?room=${room.id}`}
-                  className="px-6 py-3 border border-neutral-200 hover:bg-neutral-900 hover:text-white transition-colors uppercase font-oswald text-xs tracking-widest"
-                >
-                  Book {room.name}
-                </Link>
-              </div>
-            </motion.div>
-          ))}
+                {/* Info */}
+                <div>
+                  <span className="font-oswald text-sm text-neutral-400 block mb-2">
+                    0{idx + 1}
+                  </span>
+                  <h3 className="font-oswald text-3xl uppercase mb-2 group-hover:text-neutral-500 transition-colors">
+                    {room.name}
+                  </h3>
+                  {room.mood && (
+                    <p className="font-inter text-xs font-medium uppercase tracking-widest text-neutral-400 mb-4">
+                      {room.mood}
+                    </p>
+                  )}
+                  {room.description && (
+                    <p className="font-inter font-light text-neutral-600 leading-relaxed mb-6 max-w-md">
+                      {room.description}
+                    </p>
+                  )}
+                  <div className="flex flex-wrap items-center gap-3 text-xs font-inter text-neutral-400 uppercase tracking-wider mb-6">
+                    {room.price_weekday && <span>From €{room.price_weekday}/night</span>}
+                    {room.size && (
+                      <>
+                        <span>·</span>
+                        <span>{room.size} m²</span>
+                      </>
+                    )}
+                    {room.capacity_adults && (
+                      <>
+                        <span>·</span>
+                        <span>{room.capacity_adults} guests</span>
+                      </>
+                    )}
+                  </div>
+                  <span className="inline-block border-b border-neutral-900 pb-0.5 font-oswald text-xs uppercase tracking-widest group-hover:text-neutral-500 group-hover:border-neutral-500 transition-colors">
+                    View Room →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* CTA */}
+      <section className="mt-8 py-24 bg-neutral-900 text-white text-center px-6">
+        <p className="font-oswald text-xs uppercase tracking-[0.4em] mb-6 text-neutral-400">
+          Enquire
+        </p>
+        <h3 className="font-oswald text-4xl md:text-5xl uppercase mb-8">
+          Ready to Sleep on Nature?
+        </h3>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="mailto:info@entertheblender.gr"
+            className="px-10 py-4 bg-white text-neutral-900 font-oswald uppercase tracking-widest text-sm hover:bg-neutral-100 transition-colors"
+          >
+            Email Us
+          </a>
+          <a
+            href="tel:+302105223954"
+            className="px-10 py-4 border border-white/30 text-white font-oswald uppercase tracking-widest text-sm hover:border-white transition-colors"
+          >
+            +30 210 522 3954
+          </a>
         </div>
-      </section>
-
-      {/* FINAL CTA */}
-      <section className="mt-32 py-24 bg-neutral-100 text-center">
-        <h3 className="font-oswald text-4xl uppercase mb-8">Ready to Sleep on Nature?</h3>
-        <Link href="/book" className="bg-neutral-900 text-white px-10 py-4 uppercase font-oswald tracking-widest hover:bg-neutral-800 transition-colors">
-          Book Your Stay
-        </Link>
       </section>
     </div>
   );
