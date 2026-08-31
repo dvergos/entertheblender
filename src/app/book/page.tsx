@@ -115,7 +115,7 @@ function OrchardBooking() {
               selected={dateRange}
               onSelect={(range) => setDateRange({ from: range?.from, to: range?.to })}
               disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
-              numberOfMonths={2}
+              numberOfMonths={1}
             />
           </PopoverContent>
         </Popover>
