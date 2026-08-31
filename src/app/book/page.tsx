@@ -1,54 +1,25 @@
 'use client';
 
 import { useState, Suspense } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { clsx } from "clsx";
-import { motion, AnimatePresence } from "motion/react";
-import { Button } from "../components/ui/button";
+import { motion } from "motion/react";
 import { CalendarIcon, ExternalLink } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Calendar } from "../components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popover";
 import { format } from "date-fns";
-
-type BookingType = "orchard" | "vineyard" | "basket";
+import { toast } from "sonner";
 
 export default function Booking() {
-  const [activeTab, setActiveTab] = useState<BookingType>("orchard");
-
   return (
     <div className="bg-neutral-50 min-h-screen pb-24 font-inter text-neutral-900">
       <div className="pt-12 px-6 md:px-12 max-w-5xl mx-auto">
-        <h1 className="font-oswald text-5xl md:text-7xl uppercase mb-12 text-center">Reservations</h1>
-
-        {/* TABS */}
-        <div className="flex flex-wrap justify-center gap-8 mb-16 border-b border-neutral-200 pb-4">
-          {(["orchard", "vineyard", "basket"] as BookingType[]).map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={clsx(
-                "text-lg uppercase font-oswald tracking-widest transition-colors pb-4 -mb-4.5 border-b-2",
-                activeTab === tab
-                  ? "border-neutral-900 text-neutral-900"
-                  : "border-transparent text-neutral-400 hover:text-neutral-600"
-              )}
-            >
-              {tab === "orchard" && "Orchard (Stay)"}
-              {tab === "vineyard" && "Vineyard (Table)"}
-              {tab === "basket" && "Basket (Events)"}
-            </button>
-          ))}
+        <div className="text-center mb-16">
+          <span className="font-oswald text-xs uppercase tracking-widest text-[#10B981] mb-4 block">Orchard — Fruit Rooms</span>
+          <h1 className="font-oswald text-5xl md:text-7xl uppercase">Sleep in the Trees</h1>
         </div>
 
-        {/* CONTENT */}
         <Suspense fallback={<div className="py-12 text-center text-neutral-400">Loading...</div>}>
-          <AnimatePresence mode="wait">
-            {activeTab === "orchard" && <OrchardBooking key="orchard" />}
-            {activeTab === "vineyard" && <VineyardBooking key="vineyard" />}
-            {activeTab === "basket" && <BasketBooking key="basket" />}
-          </AnimatePresence>
+          <OrchardBooking />
         </Suspense>
       </div>
     </div>
@@ -215,144 +186,3 @@ function OrchardBooking() {
   );
 }
 
-// ----------------------------------------------------------------------
-// VINEYARD BOOKING FORM
-// ----------------------------------------------------------------------
-function VineyardBooking() {
-  const { register, handleSubmit, reset } = useForm();
-
-  const onSubmit = (data: any) => {
-    console.log(data);
-    toast.success("Table Reserved! See you at sunset.");
-    reset();
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.3 }}
-      className="max-w-2xl mx-auto space-y-8"
-    >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-xs uppercase font-oswald tracking-widest text-neutral-500">Date</label>
-          <input type="date" {...register("date", { required: true })} className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900" />
-        </div>
-        <div className="space-y-2">
-          <label className="text-xs uppercase font-oswald tracking-widest text-neutral-500">Time</label>
-          <select {...register("time")} className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900">
-            <option>18:00</option>
-            <option>19:00</option>
-            <option>20:00</option>
-            <option>21:00</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-xs uppercase font-oswald tracking-widest text-neutral-500">Guests</label>
-          <select {...register("guests")} className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900">
-            <option>2 Guests</option>
-            <option>3 Guests</option>
-            <option>4 Guests</option>
-            <option>5+ Guests</option>
-          </select>
-        </div>
-        <div className="space-y-2">
-          <label className="text-xs uppercase font-oswald tracking-widest text-neutral-500">Preference</label>
-          <div className="flex gap-4 pt-2">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input type="radio" value="terrace" {...register("location")} defaultChecked className="accent-neutral-900" />
-              <span className="text-sm">Terrace</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input type="radio" value="indoor" {...register("location")} className="accent-neutral-900" />
-              <span className="text-sm">Indoor</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <label className="text-xs uppercase font-oswald tracking-widest text-neutral-500">Special Requests</label>
-        <textarea {...register("requests")} rows={3} className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900 resize-none" placeholder="Allergies, occasions..."></textarea>
-      </div>
-
-      <div className="space-y-2">
-        <label className="text-xs uppercase font-oswald tracking-widest text-neutral-500">Contact</label>
-        <div className="grid grid-cols-2 gap-4">
-          <input type="text" placeholder="Name" {...register("name", { required: true })} className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900" />
-          <input type="email" placeholder="Email" {...register("email", { required: true })} className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900" />
-        </div>
-      </div>
-
-      <Button onClick={handleSubmit(onSubmit)} className="w-full mt-8">Reserve Table</Button>
-    </motion.div>
-  );
-}
-
-// ----------------------------------------------------------------------
-// BASKET BOOKING FORM
-// ----------------------------------------------------------------------
-function BasketBooking() {
-  const { register, handleSubmit, reset } = useForm();
-
-  const onSubmit = (data: any) => {
-    console.log(data);
-    toast.success("Inquiry Sent! We'll be in touch.");
-    reset();
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.3 }}
-      className="max-w-2xl mx-auto space-y-8"
-    >
-      <div className="text-center mb-8">
-        <p className="text-neutral-500">For groups larger than 8, or private events.</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-xs uppercase font-oswald tracking-widest text-neutral-500">Event Date</label>
-          <input type="date" {...register("date", { required: true })} className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900" />
-        </div>
-        <div className="space-y-2">
-          <label className="text-xs uppercase font-oswald tracking-widest text-neutral-500">Group Size</label>
-          <input type="number" {...register("size", { required: true })} placeholder="Estimated guests" className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900" />
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <label className="text-xs uppercase font-oswald tracking-widest text-neutral-500">Event Type</label>
-        <select {...register("type")} className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900">
-          <option>Casual Gathering</option>
-          <option>Birthday / Celebration</option>
-          <option>Corporate</option>
-          <option>Wedding / Private</option>
-        </select>
-      </div>
-
-      <div className="space-y-2">
-        <label className="text-xs uppercase font-oswald tracking-widest text-neutral-500">Tell us more</label>
-        <textarea {...register("details")} rows={4} className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900 resize-none" placeholder="What do you have in mind?"></textarea>
-      </div>
-
-      <div className="space-y-2">
-        <label className="text-xs uppercase font-oswald tracking-widest text-neutral-500">Contact</label>
-        <div className="grid grid-cols-2 gap-4">
-          <input type="text" placeholder="Name" {...register("name", { required: true })} className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900" />
-          <input type="email" placeholder="Email" {...register("email", { required: true })} className="w-full border-b border-neutral-300 py-2 bg-transparent focus:outline-none focus:border-neutral-900" />
-        </div>
-      </div>
-
-      <Button onClick={handleSubmit(onSubmit)} className="w-full mt-8">Request Event</Button>
-    </motion.div>
-  );
-}
