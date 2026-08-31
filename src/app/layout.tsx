@@ -170,7 +170,7 @@ export default function RootLayout({
                   <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-70 transition-opacity" aria-label="Facebook">
                     <Facebook size={18} />
                   </a>
-                  <a href="https://www.instagram.com/entertheblender" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-70 transition-opacity" aria-label="Instagram">
+                  <a href="https://www.instagram.com/enter_the_blender" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-70 transition-opacity" aria-label="Instagram">
                     <Instagram size={18} />
                   </a>
                   <a href="mailto:info@entertheblender.gr" className="text-white hover:opacity-70 transition-opacity" aria-label="Email">

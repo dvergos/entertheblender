@@ -32,7 +32,7 @@ export function FloatingContactButton() {
     {
       icon: Instagram,
       label: "Instagram",
-      href: "https://instagram.com/entertheblender",
+      href: "https://www.instagram.com/enter_the_blender",
       color: "#7C3AED",
       delay: 0.25,
     },
