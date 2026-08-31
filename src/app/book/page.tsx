@@ -109,13 +109,13 @@ function OrchardBooking() {
               <CalendarIcon className="h-4 w-4 text-neutral-500 group-hover:text-neutral-900 transition-colors" />
             </button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
+          <PopoverContent className="w-auto p-0 overflow-visible" align="start">
             <Calendar
               mode="range"
               selected={dateRange}
               onSelect={(range) => setDateRange({ from: range?.from, to: range?.to })}
               disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
-              numberOfMonths={1}
+              numberOfMonths={2}
             />
           </PopoverContent>
         </Popover>
