@@ -167,7 +167,7 @@ export default function RootLayout({
                   <p>+30 210 522 3954</p>
                 </div>
                 <div className="flex gap-3 mt-2">
-                  <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-70 transition-opacity" aria-label="Facebook">
+                  <a href="https://www.facebook.com/profile.php?id=61576905283069" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-70 transition-opacity" aria-label="Facebook">
                     <Facebook size={18} />
                   </a>
                   <a href="https://www.instagram.com/enter_the_blender" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-70 transition-opacity" aria-label="Instagram">
