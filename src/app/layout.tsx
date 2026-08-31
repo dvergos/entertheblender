@@ -104,16 +104,10 @@ export default function RootLayout({
                   </span>
                 </span>
 
-                {/* Book Now — disabled */}
-                <span className="relative group cursor-not-allowed ml-4">
-                  <span className="flex items-center gap-1.5 text-neutral-400">
-                    <span className="font-bold">Book Now →</span>
-                    <Construction className="w-3.5 h-3.5" />
-                  </span>
-                  <span className="absolute top-full left-0 mt-2 px-3 py-1.5 bg-neutral-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-                    under construction
-                  </span>
-                </span>
+                {/* Book Now — active */}
+                <Link href="/book" className="ml-4 font-bold hover:opacity-70 transition-opacity">
+                  Book Now →
+                </Link>
               </div>
 
               {/* Mobile Menu */}
