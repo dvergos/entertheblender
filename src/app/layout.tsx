@@ -1,12 +1,12 @@
 'use client';
 
 import './globals.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Toaster } from 'sonner';
 import { FloatingContactButton } from './components/FloatingContactButton';
-import { Facebook, Instagram, Mail, MessageCircle, Map, Construction } from 'lucide-react';
+import { Facebook, Instagram, Mail, MessageCircle, Map, Construction, Menu, X } from 'lucide-react';
 
 export default function RootLayout({
   children,
@@ -15,9 +15,11 @@ export default function RootLayout({
 }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith('/admin');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setMobileMenuOpen(false);
   }, [pathname]);
 
   // Admin routes have their own layout — render children only
@@ -110,12 +112,59 @@ export default function RootLayout({
                 </a>
               </div>
 
-              {/* Mobile Menu */}
-              <div className="md:hidden">
-                <Link href="/basket" className="px-4 py-1.5 bg-neutral-900 text-white text-xs uppercase">Basket</Link>
+              {/* Mobile hamburger */}
+              <div className="md:hidden absolute right-4">
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="p-2 text-neutral-900"
+                  aria-label="Toggle menu"
+                >
+                  {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                </button>
               </div>
             </div>
           </nav>
+
+          {/* Mobile full-screen menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden fixed inset-0 z-40 bg-white flex flex-col pt-36 px-8 pb-12 overflow-y-auto">
+              <nav className="flex flex-col gap-6">
+                <Link href="/orchard" className="flex items-center gap-3 font-oswald text-2xl uppercase tracking-widest">
+                  <span className="w-2 h-2 rounded-full bg-[#10B981]"></span>Orchard
+                </Link>
+                <Link href="/basket" className="flex items-center gap-3 font-oswald text-2xl uppercase tracking-widest">
+                  <span className="w-2 h-2 rounded-full bg-[#D4B5E8]"></span>Basket
+                </Link>
+                <span className="flex items-center gap-3 font-oswald text-2xl uppercase tracking-widest text-neutral-300 cursor-not-allowed">
+                  <span className="w-2 h-2 rounded-full bg-[#FF69B4] opacity-40"></span>Vineyard <Construction className="w-4 h-4" />
+                </span>
+
+                <div className="w-full h-px bg-neutral-100 my-2" />
+
+                <Link href="/events" className="font-inter text-lg text-neutral-700 lowercase">events</Link>
+                <Link href="/contact" className="font-inter text-lg text-neutral-700 lowercase">contact</Link>
+                <span className="font-inter text-lg text-neutral-300 lowercase flex items-center gap-2 cursor-not-allowed">
+                  stories <Construction className="w-3.5 h-3.5" />
+                </span>
+
+                <div className="w-full h-px bg-neutral-100 my-2" />
+
+                <a
+                  href="https://orchard.book-onlinenow.net/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-neutral-900 text-white px-6 py-4 font-oswald uppercase tracking-widest text-sm text-center"
+                >
+                  Book Now →
+                </a>
+              </nav>
+
+              <div className="mt-auto pt-12 text-sm text-neutral-400 font-inter space-y-1">
+                <p>Odisseos 14, Athens 104 37</p>
+                <a href="tel:+302105223954" className="block hover:text-neutral-900 transition-colors">+30 210 522 3954</a>
+              </div>
+            </div>
+          )}
 
           <main className="flex-grow pt-24 md:pt-28">
             {children}
