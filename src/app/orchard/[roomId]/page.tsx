@@ -228,16 +228,16 @@ export default async function RoomDetailPage({
               </div>
             )}
 
-            {/* Book now — coming soon */}
+            {/* Book now */}
             <div>
-              <button
-                disabled
-                className="w-full bg-neutral-200 text-neutral-400 py-4 font-oswald uppercase tracking-widest text-sm cursor-not-allowed"
+              <Link
+                href="/book"
+                className="block w-full bg-neutral-900 text-white py-4 font-oswald uppercase tracking-widest text-sm text-center hover:bg-neutral-700 transition-colors"
               >
-                Book Now — Coming Soon
-              </button>
-              <p className="text-xs text-center font-inter text-neutral-400 mt-2">
-                Online booking is coming soon.
+                Book Now
+              </Link>
+              <p className="text-xs text-center font-inter text-neutral-400 mt-2 leading-relaxed">
+                Booking does not guarantee you will get this exact room — it&apos;s based on availability.
               </p>
             </div>
 
