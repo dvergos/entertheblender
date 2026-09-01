@@ -139,7 +139,7 @@ export default function RootLayout({
                 <h4 className="text-white font-oswald text-sm tracking-widest uppercase mb-2">Experiences</h4>
                 <Link href="/basket" className="text-sm hover:text-white transition-colors">Basket — PUT IT IN</Link>
                 <Link href="/orchard" className="text-sm hover:text-white transition-colors">Orchard — FRUIT ROOMS</Link>
-                <Link href="/vineyard" className="text-sm hover:text-white transition-colors">Vineyard — RAW PLEASURE</Link>
+                <span className="text-sm text-neutral-600 flex items-center gap-1.5 cursor-not-allowed">Vineyard — RAW PLEASURE <Construction className="w-3 h-3" /></span>
               </div>
 
               <div className="flex flex-col gap-2">
