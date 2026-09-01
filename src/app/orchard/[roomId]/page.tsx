@@ -230,12 +230,14 @@ export default async function RoomDetailPage({
 
             {/* Book now */}
             <div>
-              <Link
-                href="/book"
+              <a
+                href="https://orchard.book-onlinenow.net/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block w-full bg-neutral-900 text-white py-4 font-oswald uppercase tracking-widest text-sm text-center hover:bg-neutral-700 transition-colors"
               >
                 Book Now
-              </Link>
+              </a>
               <p className="text-xs text-center font-inter text-neutral-400 mt-2 leading-relaxed">
                 Booking does not guarantee you will get this exact room — it&apos;s based on availability.
               </p>
