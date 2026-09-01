@@ -147,7 +147,7 @@ export default function RootLayout({
                 <Link href="/events" className="text-sm hover:text-white transition-colors">Events</Link>
                 <Link href="/" className="text-sm hover:text-white transition-colors">Stories</Link>
                 <Link href="/contact" className="text-sm hover:text-white transition-colors">Contact</Link>
-                <Link href="/book" className="text-sm hover:text-white transition-colors">Book Now</Link>
+                <a href="https://orchard.book-onlinenow.net/" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors">Book Now</a>
               </div>
 
               <div className="flex flex-col gap-4">
