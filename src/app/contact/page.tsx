@@ -87,11 +87,11 @@ export default function Contact() {
             <div>
               <h3 className="font-oswald text-2xl uppercase mb-4">Follow</h3>
               <div className="flex gap-6">
-                <a href="https://www.instagram.com/entertheblender" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-inter text-sm hover:text-neutral-500 transition-colors">
+                <a href="https://www.instagram.com/enter_the_blender" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-inter text-sm hover:text-neutral-500 transition-colors">
                   <Instagram size={20} />
                   <span>Instagram</span>
                 </a>
-                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-inter text-sm hover:text-neutral-500 transition-colors">
+                <a href="https://www.facebook.com/profile.php?id=61576905283069" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-inter text-sm hover:text-neutral-500 transition-colors">
                   <Facebook size={20} />
                   <span>Facebook</span>
                 </a>
