@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from "motion/react";
-import { Bed, UtensilsCrossed, ArrowRight, Construction } from "lucide-react";
+import { Bed, ArrowRight, Construction } from "lucide-react";
 
 const HERO_IMAGE = "/hero-bg.jpg";
 
@@ -135,25 +135,15 @@ export default function HomePage() {
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           className="flex flex-col sm:flex-row gap-3 justify-center items-center"
         >
-          {/* Book a Room — Under Construction */}
-          <span className="relative group cursor-not-allowed">
-            <span className="bg-neutral-200 text-neutral-400 px-5 py-2.5 rounded-2xl font-semibold text-xs flex items-center gap-2 border border-neutral-300">
-              Book a Room <Bed className="w-3.5 h-3.5" /> <Construction className="w-3.5 h-3.5" />
-            </span>
-            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-neutral-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-              under construction
-            </span>
-          </span>
-
-          {/* Reserve a Table — Under Construction */}
-          <span className="relative group cursor-not-allowed">
-            <span className="bg-neutral-200 text-neutral-400 px-5 py-2.5 rounded-2xl font-semibold text-xs flex items-center gap-2 border border-neutral-300">
-              Reserve a Table <UtensilsCrossed className="w-3.5 h-3.5" /> <Construction className="w-3.5 h-3.5" />
-            </span>
-            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-neutral-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-              under construction
-            </span>
-          </span>
+          {/* Book a Room — active */}
+          <a
+            href="https://orchard.book-onlinenow.net/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-neutral-900 text-white px-5 py-2.5 rounded-2xl font-semibold text-xs flex items-center gap-2 border border-neutral-900 hover:bg-neutral-700 transition-colors"
+          >
+            Book a Room <Bed className="w-3.5 h-3.5" />
+          </a>
 
           {/* Explore Concept — Under Construction */}
           <span className="relative group cursor-not-allowed">
