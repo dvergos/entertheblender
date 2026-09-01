@@ -104,10 +104,10 @@ export default function RootLayout({
                   </span>
                 </span>
 
-                {/* Book Now — active */}
-                <Link href="/book" className="ml-4 font-bold hover:opacity-70 transition-opacity">
+                {/* Book Now — direct to booking engine */}
+                <a href="https://orchard.book-onlinenow.net/" target="_blank" rel="noopener noreferrer" className="ml-4 font-bold hover:opacity-70 transition-opacity">
                   Book Now →
-                </Link>
+                </a>
               </div>
 
               {/* Mobile Menu */}
